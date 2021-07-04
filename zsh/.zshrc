@@ -10,11 +10,13 @@
 HISTFILE=$XDG_DATA_HOME/zsh/history
 SAVEHIST=$(( 50 * 1000 ))       # For readability
 HISTSIZE=$(( 1.2 * SAVEHIST ))  # Zsh recommended value
-
+if [[ "$(locale LC_CTYPE)" == "UTF-8" ]]; then
+    setopt COMBINING_CHARS
+fi
 # Plugin manager
 source ~/Git/zsh-snap/znap.zsh
 
-setopt histfcntllock histignorealldups histsavenodups sharehistory
+setopt histfcntllock histignorealldups histsavenodups sharehistory BEEP
 setopt extendedglob globstarshort numericglobsort
 setopt NO_autoparamslash interactivecomments
 
@@ -24,6 +26,7 @@ source /usr/local/opt/zsh-vi-mode/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
 
 ##
 # Prompt config
+PS1="%n@%m %1~ %# "
 #
 .zshrc.chpwd() {
   print -P -- '\n%F{12}%~%f/'
@@ -123,7 +126,7 @@ setopt autocd autopushd chaselinks pushdignoredups pushdminus
 # Completion
 #
 fpath+=( ~[zsh-users/zsh-completions]/src )
-
+autoload -U compinit && compinit
 # Real-time auto-completion
 znap source marlonrichert/zsh-autocomplete
 

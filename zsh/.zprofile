@@ -73,3 +73,5 @@ export CPPFLAGS="-I/usr/local/opt/openjdk/include"
 [[ -e ~/.profile ]] && emulate sh -c 'source ~/.profile'
 export PS1="%10F%m%f:%11F%1~%f \$ "
 export CPPFLAGS="-I/usr/local/opt/openjdk/include"
+if [ -r ~/.zshrc ]; then echo 'export GPG_TTY=$(tty)' >> ~/.zshrc; \
+  else echo 'export GPG_TTY=$(tty)' >> ~/.zprofile; fi
