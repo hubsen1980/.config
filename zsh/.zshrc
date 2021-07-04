@@ -1,9 +1,8 @@
-#!/bin/zsh
+#!/bin/zsh -f
 
 ##
 # Zsh runs .zshrc for each interactive shell, after .zprofile
 #
-export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 
 ##
 # Essentials
@@ -19,6 +18,9 @@ setopt histfcntllock histignorealldups histsavenodups sharehistory
 setopt extendedglob globstarshort numericglobsort
 setopt NO_autoparamslash interactivecomments
 
+#
+source /usr/local/opt/zsh-git-prompt/zshrc.sh
+source /usr/local/opt/zsh-vi-mode/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
 
 ##
 # Prompt config

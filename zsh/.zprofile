@@ -15,12 +15,13 @@ export HOME=/Users/hubs
 export XDG_CONFIG_HOME  # Value is set in .zshenv
 export XDG_DATA_HOME=~/.local/share
 export GRADLE_USER_HOME=$XDG_CONFIG_HOME/gradle
+export DEVELOPER_DIR=/Library/Developer
 
 export HOMEBREW_BAT=1
 export HOMEBREW_COLOR=1
 path=( /usr/local/Homebrew/bin(N) $path[@] )
 eval "$( brew shellenv )"
-
+eval "$(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib=$HOME/perl5)"
 export PYENV_ROOT="$HOME/.pyenv"
 path=( $PYENV_ROOT/bin $path[@] )
 eval "$(pyenv init --path)"
@@ -31,19 +32,23 @@ export ANDROID_SDK_ROOT=$HOMEBREW_PREFIX/share/android-commandlinetools
 
 # (N) deletes the item if it doesn't exist.
 path=(
+  /usr/local/{bin,sbin}(N)
+  /opt/local/{bin,sbin}(N)
+  /bin/(N)
+  /sin/(N)
   $PIPX_BIN_DIR(N)
   $PYENV_ROOT/{bin,shims}(N)
   $ANDROID_SDK_ROOT/{emulator,platform-tools}(N)
   $HOMEBREW_PREFIX/opt/{openjdk,pipx,llvm,mariadb@10.3,ncurses,tomcat@9}/bin(N)
-  /opt/local/{bin,sbin}(N)
   /Library/Developer/CommandLineTools/usr/{bin,share}(N) # MacPorts
   $path[@]
   .
 )
-
+export MANPATH="/opt/local/share/man:$MANPATH"
+export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
+export DISPLAY=:0.0
 export CATALINA_HOME=$HOMEBREW_PREFIX/opt/tomcat@9/libexec
 export CATALINA_BASE=~/Tomcat9
-
 export LANG=en_US.UTF-8
 export VISUAL="/usr/local/bin/mate -w"  
 export EDITOR="/usr/local/bin/nano"
@@ -53,14 +58,18 @@ export MANPAGER='bat -l man'; [[ $OSTYPE == darwin* ]] && MANPAGER="col -bpx | $
 export LESS='-FiMr -j.5 --incsearch'
 export LESSHISTFILE=$XDG_DATA_HOME/less/lesshst
 export QUOTING_STYLE=escape # Used by GNU ls
-
+export PATH="/usr/local/opt/make/libexec/gnubin:$PATH"
 if [[ $OSTYPE == darwin*   ]]; then
   export SHELL_SESSIONS_DISABLE=1
   export JAVA_HOME=$( /usr/libexec/java_home )
 fi
-if [[ $OSTYPE == linux-gnu ]]; then
+if [[ $OSTYPE == darwin* ]]; then
   export DEBIAN_PREVENT_KEYBOARD_CHANGES=1
-  fpath+=( $HOMEBREW_PREFIX/share/zsh/site-functions )
+  fpath+=( $HOMEBREW_PREFIX/share/zsh/site-functions $HOME/.local $HOME/.local/zsh-completions/src  );
 fi
 [[ $VENDOR == ubuntu ]] &&
     export skip_global_compinit=1
+export CPPFLAGS="-I/usr/local/opt/openjdk/include"
+[[ -e ~/.profile ]] && emulate sh -c 'source ~/.profile'
+export PS1="%10F%m%f:%11F%1~%f \$ "
+export CPPFLAGS="-I/usr/local/opt/openjdk/include"

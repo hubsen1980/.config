@@ -12,9 +12,9 @@ formulas += bash coreutils
 endif
 
 taps := autoupdate core services
-ifeq (darwin,$(findstring darwin,$(shell print $$OSTYPE)))
+ifeq (darwin*,$(findstring darwin,$(shell print $$OSTYPE)))
 taps += cask cask-fonts cask-versions
-casks = karabiner-elements rectangle adoptopenjdk8 visual-studio-code \
+casks = rectangle adoptopenjdk8 visual-studio-code \
 	font-material-icons font-montserrat font-open-sans font-roboto font-ubuntu
 endif
 
@@ -23,14 +23,14 @@ executables = aureliojargas/clitest ekalinin/github-markdown-toc
 zshenv = ~/.zshenv
 sshconfig = ~/.ssh/config
 dotfiles := $(zshenv) $(sshconfig)
-ifeq (darwin,$(findstring darwin,$(shell print $$OSTYPE)))
+ifeq (darwin*,$(findstring darwin*,$(shell print $$OSTYPE)))
 vscodesettings = ~/Library/ApplicationSupport/Code/User/settings.json
 vscodekeybindings = ~/Library/ApplicationSupport/Code/User/keybindings.json
 dotfiles += $(vscodesettings) $(vscodekeybindings)
 endif
 
 prefix = /usr/local
-ifeq (linux-gnu,$(shell print $$OSTYPE))
+ifeq (darwin*,$(shell print $$OSTYPE))
 exec_prefix = /usr/local/Homebrew
 else
 exec_prefix = $(prefix)
@@ -40,7 +40,7 @@ datarootdir = $(prefix)/share
 datadir = $(datarootdir)
 
 BASH = /usr/local/bin/bash
-CURL = /usr/bin/curl
+CURL = /usr/local/bin/curl
 OSASCRIPT = /usr/bin/osascript
 DSCL = /usr/bin/dscl
 DCONF = /usr/bin/dconf
@@ -48,7 +48,7 @@ GETENT = /usr/bin/getent
 GIO = /usr/bin/gio
 GIT = /usr/local/bin/git
 
-ifeq (linux-gnu,$(shell print $$OSTYPE))
+ifeq (darwin*,$(shell print $$OSTYPE))
 GIT = $(bindir)/git
 else
 GIT = /usr/local/bin/git
@@ -72,7 +72,7 @@ PYENV_VERSION = 3.9.6
 PIP = $(PYENV_ROOT)/shims/pip
 PIPFLAGS =
 PIPX = ~/.local/bin/pipx
-PIPENV = ~/.pipenv
+PIPENV = ~/.local/bin/pipenv
 
 backups := $(wildcard $(dotfiles:%=%~))
 ifneq (,$(wildcard $(OSASCRIPT)))
