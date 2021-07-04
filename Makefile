@@ -1,7 +1,7 @@
-#!/usr/bin/make -f
+#!/usr/local/bin/gmake -f
 
-upstream = https://github.com/marlonrichert/.config.git
-SHELL = /bin/zsh
+upstream = https://github.com/hubsen1980/.config.git
+SHELL = /usr/local/bin/zsh
 
 # Include only those formulas that we want on all machines.
 formulas := asciinema bat less nano
@@ -31,7 +31,7 @@ endif
 
 prefix = /usr/local
 ifeq (linux-gnu,$(shell print $$OSTYPE))
-exec_prefix = /home/linuxbrew/.linuxbrew
+exec_prefix = /usr/local/Homebrew
 else
 exec_prefix = $(prefix)
 endif
@@ -39,23 +39,23 @@ bindir = $(exec_prefix)/bin
 datarootdir = $(prefix)/share
 datadir = $(datarootdir)
 
-BASH = /bin/bash
+BASH = /usr/local/bin/bash
 CURL = /usr/bin/curl
 OSASCRIPT = /usr/bin/osascript
 DSCL = /usr/bin/dscl
-APT = /usr/bin/apt
 DCONF = /usr/bin/dconf
 GETENT = /usr/bin/getent
 GIO = /usr/bin/gio
+GIT = /usr/local/bin/git
 
 ifeq (linux-gnu,$(shell print $$OSTYPE))
 GIT = $(bindir)/git
 else
-GIT = /usr/bin/git
+GIT = /usr/local/bin/git
 endif
 GITFLAGS =
 
-ZSH = /bin/zsh
+ZSH = usr/local/bin/zsh
 ZNAP = ~/Git/zsh-snap/znap.zsh
 
 BREW = $(bindir)/brew
@@ -68,11 +68,11 @@ formulas := $(formulas:%=$(HOMEBREW_CELLAR)/%)
 
 PYENV_ROOT = ~/.pyenv
 PYENV = $(bindir)/pyenv
-PYENV_VERSION = 3.7.10
+PYENV_VERSION = 3.9.6
 PIP = $(PYENV_ROOT)/shims/pip
 PIPFLAGS =
 PIPX = ~/.local/bin/pipx
-PIPENV = ~/.local/bin/pipenv
+PIPENV = ~/.pipenv
 
 backups := $(wildcard $(dotfiles:%=%~))
 ifneq (,$(wildcard $(OSASCRIPT)))
@@ -110,11 +110,11 @@ ifneq ($(upstream),$(shell $(GIT) remote get-url upstream 2> /dev/null))
 	-$(GIT) remote add upstream $(upstream) 2> /dev/null
 	$(GIT) remote set-url upstream $(upstream)
 endif
-ifeq (,$(shell git branch -l main))
-	-git branch -m master main 2> /dev/null
+ifeq (,$(shell git branch -l hubsen1980-patch-1))
+	-git branch -m  hubsen1980-patch-1 2> /dev/null
 endif
 	$(GIT) fetch $(GITFLAGS) -t upstream
-	$(GIT) branch $(GITFLAGS) -u upstream/main main
+	$(GIT) branch $(GITFLAGS) -u upstream/hubsen1980-patch-1 hubsen1980-patch-1
 	$(GIT) pull $(GITFLAGS) --autostash upstream
 	$(GIT) remote set-head upstream -a
 
@@ -136,7 +136,7 @@ installdirs:
 install: all clean installdirs $(taps) $(formulas) $(ZNAP) $(PYENV) $(PIP) $(PIPX) $(PIPENV)
 	$(PRE_INSTALL) # install: pre
 ifeq (darwin,$(findstring darwin,$(shell print $$OSTYPE)))
-	-$(BREW) install $(BREWFLAGS) --cask $(casks) 2> /dev/null
+	-$(BREW) install $(BREWFLAGS) 2> /dev/null
 endif
 	-$(BREW) autoupdate $(BREWFLAGS) start --upgrade --cleanup 2> /dev/null
 	$(NORMAL_INSTALL) # install: normal
@@ -208,15 +208,15 @@ $(PYENV):
 	$(BREW) install $(BREWFLAGS) --formula pyenv
 
 $(PIP):
-ifneq (,$(wildcard $(APT)))
-	sudo $(APT) install zlib1g-dev bzip2 sqlite3
+ifneq (,$(wildcard $BREW)))
+	$(BREW) install $(BREWFLAGS) --formula zlib-ng bzip2 sqlite
 endif
 	PYENV_ROOT=$(PYENV_ROOT) $(PYENV) install -s $(PYENV_VERSION)
 	PYENV_ROOT=$(PYENV_ROOT) $(PYENV) global $(PYENV_VERSION)
 
 $(PIPX):
 	# pipx
-	$(PIP) install $(PIPFLAGS) --user pipx
+	$(BREW) install $(BREWFLAGS) --formula pipx
 
 $(PIPENV):
 	# pipenv

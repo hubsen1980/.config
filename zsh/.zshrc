@@ -3,7 +3,7 @@
 ##
 # Zsh runs .zshrc for each interactive shell, after .zprofile
 #
-
+export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 
 ##
 # Essentials
@@ -126,7 +126,7 @@ fpath+=( ~[zsh-users/zsh-completions]/src )
 znap source marlonrichert/zsh-autocomplete
 
 # Include Python version as comment, for cache invalidation.
-znap eval    pip-completion "pip completion --zsh             # $PYENV_VERSION"
+znap eval    pip-completion "pip3 completion --zsh             # $PYENV_VERSION"
 znap eval   pipx-completion "register-python-argcomplete pipx # $PYENV_VERSION"
 znap eval pipenv-completion "pipenv --completion              # $PYENV_VERSION"
 
