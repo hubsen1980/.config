@@ -1,4 +1,4 @@
-#!/bin/zsh -f
+#!/usr/local/bin/env zsh -f 
 
 ##
 # Zsh runs .zshrc for each interactive shell, after .zprofile
@@ -15,7 +15,6 @@ if [[ "$(locale LC_CTYPE)" == "UTF-8" ]]; then
 fi
 # Plugin manager
 source ~/Git/zsh-snap/znap.zsh
-
 setopt histfcntllock histignorealldups histsavenodups sharehistory BEEP
 setopt extendedglob globstarshort numericglobsort
 setopt NO_autoparamslash interactivecomments
@@ -23,7 +22,7 @@ setopt NO_autoparamslash interactivecomments
 #
 source /usr/local/opt/zsh-git-prompt/zshrc.sh
 source /usr/local/opt/zsh-vi-mode/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
-
+source /$HOME/Git/zsh-completions/zsh-completions.plugin.zsh
 ##
 # Prompt config
 PS1="%n@%m %1~ %# "
@@ -48,7 +47,7 @@ add-zsh-hook chpwd .zshrc.chpwd   # Call whenever we change dirs.
 setopt cdsilent pushdsilent       # Suppress output of cd and pushd.
 
 add-zsh-hook precmd .zshrc.precmd # Call before each prompt.
-
+export GPG_TTY=$(tty)
 ZLE_RPROMPT_INDENT=0              # Right prompt margin
 setopt transientrprompt           # Auto-remove right prompt.
 
