@@ -1,0 +1,7 @@
+{
+    xcode_arch_x86_64_plat_macosx = {
+        arch = "x86_64",
+        __global = true,
+        plat = "macosx"
+    }
+}

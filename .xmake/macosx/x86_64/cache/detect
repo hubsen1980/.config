@@ -1,0 +1,11 @@
+{
+    find_program = {
+        ldc2 = false,
+        gdc = "/usr/local/bin/gdc",
+        zig = false,
+        dmd = false
+    },
+    ["detect.sdks.find_xcode"] = {
+        xcode = { }
+    }
+}
